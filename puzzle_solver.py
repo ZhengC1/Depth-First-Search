@@ -1,43 +1,35 @@
-#!/usr/bin/env python
+#!usr/bin/python
 
-#Name:  Chun Zheng
-#Language:  Python 3.5
-#Class: Arti. Intel.
-#Instructor: M. Parry
-
-#Import Statements
-#Import random so that i can populate my list from 1 to 4
-import random
-
-
-class puzzle_generator(object):
-
-    #My init function, it's rather long
-    def __init__(self):
-        #A lines list and a tables list to keep track of my moves.
-        self.lines = [[0 for x in range(21)] for x in range(21)]
-        self.table = [[1 for x in range(21)] for x in range(21)]
-
-        #Asking the difficulty of the puzzle that they would like to solve
-        name_file = raw_input("puzzle difficulty: ")
-        map_file = open("Medium.txt", "w+")
-        for i in range(21):
-            for j in range(21):
-                #This makes the end position zero a goal
-                if i == 20 and j == 20:
-                    map_file.write('0')
-                else:
-                    rand_int = random.randint(1, 4)
-                    map_file.write(str(rand_int))
-                    self.lines.append(rand_int)
-            map_file.write("\n")
-        map_file.close()
-        treasure_map = open("Medium.txt", "r")
+'''
+Author: Chun Zheng
+Assignment: Backtracking Treasure Hunt
+Lang - python 2.7
+Class - Artificial Intelligence
+'''
+class treasure_hunt(object):
+    """
+    Initilize Function
+    reads maps that are 11 by 11
+    @ param map_file - takes a file string and then reads through it.
+    """
+    def __init__(self, map_file):
+        self.lines = [[0 for x in  range(11)] for x in range(11)]
+        self.table = [[1 for x in range(11)] for x in range(11)]
+        """
+        The last couple lines strips the spaces in the file and
+        readlines so that you can index everything in a list in python
+        """
+        treasure_map = open(map_file, "r")
         self.lines = treasure_map.readlines()
+        self.lines = [l.replace(" ", "") for l in self.lines]
         treasure_map.close()
         print self.lines
-"""
-    def solve_generate_puzzle(self, x, y, moves):
+    """
+    takes the x and y coordinate in the list
+    moves is the moves you have made in the map throughout
+    the recursive calls.
+    """
+    def backtrack(self, x, y, moves):
         #Values is the offset used in the file
         #Also prints offset
         value = int(self.lines[x][y])
@@ -48,7 +40,7 @@ class puzzle_generator(object):
             return False
 
         #Returns the solution and stops the recursion
-        if x == 21 and y == 21:
+        if (x == 0 or x == 10) and (y == 0 or y == 10):
             print "Solution : %s" % moves
             print "Found a solution %d %d Return it!" %(x, y)
             return True
@@ -56,7 +48,7 @@ class puzzle_generator(object):
         else:
             #Sets the visited location in another table
             self.table[x][y] = 0
-            if (x - value) > -1 and (x - value) < 21:
+            if (x - value) > -1 and (x - value) < 11:
                 print "Try moving up %d spaces" %value
                 print "Current position %d %d %s" %(x, y, moves)
                 if self.backtrack(x - value, y, moves + " up"):
@@ -64,7 +56,7 @@ class puzzle_generator(object):
                     return True
                 else:
                     self.table[x][y] = 0
-            if (x + value) > -1 and (x + value) < 21:
+            if (x + value) > -1 and (x + value) < 11:
                 print "Try moving down %d spaces" %value
                 print "Current position %d %d %s" %(x, y, moves)
                 if self.backtrack(x + value, y, moves + " down"):
@@ -72,7 +64,7 @@ class puzzle_generator(object):
                     return True
                 else:
                     self.table[x][y] = 0
-            if (y - value) > -1 and (y - value) < 21:
+            if (y - value) > -1 and (y - value) < 11:
                 print "Try moving left %d spaces" %value
                 print "Current position %d %d %s" %(x, y, moves)
                 if self.backtrack(x, y - value, moves + " left"):
@@ -80,7 +72,7 @@ class puzzle_generator(object):
                     return True
                 else:
                     self.table[x][y] = 0
-            if (y + value) > -1 and (y + value) < 21:
+            if (y + value) > -1 and (y + value) < 11:
                 print "Try moving right %d spaces" %value
                 print "Current position %d %d %s" %(x, y, moves)
                 if self.backtrack(x, y + value, moves + " right"):
@@ -90,8 +82,10 @@ class puzzle_generator(object):
                     self.table[x][y] = 0
         #Returns false if all else fails.
         return False
-"""
-#solution = treasure_hunt(file_name)
+
+#Prints and asks what file you would like to read in
+file_name = raw_input("Name of file :")
+
+solution = treasure_hunt(file_name)
 #Prints the recursive solution
-#print solution.backtrack(0, 0)
-cat = puzzle_generator()
+print solution.backtrack(5, 5, "")
