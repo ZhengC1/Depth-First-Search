@@ -7,6 +7,7 @@
 
 #Import Statements
 #Import random so that i can populate my list from 1 to 4
+
 import random
 
 
@@ -36,8 +37,9 @@ class puzzle_generator(object):
         self.lines = treasure_map.readlines()
         treasure_map.close()
         print self.lines
-"""
+
     def solve_generate_puzzle(self, x, y, moves):
+
         #Values is the offset used in the file
         #Also prints offset
         value = int(self.lines[x][y])
@@ -54,12 +56,13 @@ class puzzle_generator(object):
             return True
         #Else, does the recursive function calls
         else:
+
             #Sets the visited location in another table
             self.table[x][y] = 0
             if (x - value) > -1 and (x - value) < 21:
                 print "Try moving up %d spaces" %value
                 print "Current position %d %d %s" %(x, y, moves)
-                if self.backtrack(x - value, y, moves + " up"):
+                if self.solve_generate_puzzle(x - value, y, moves + " up"):
                     print 'Found a solution at %d %d. Return it!' %(x, y)
                     return True
                 else:
@@ -67,7 +70,7 @@ class puzzle_generator(object):
             if (x + value) > -1 and (x + value) < 21:
                 print "Try moving down %d spaces" %value
                 print "Current position %d %d %s" %(x, y, moves)
-                if self.backtrack(x + value, y, moves + " down"):
+                if self.solve_generate_puzzle(x + value, y, moves + " down"):
                     print 'Found a solution at %d %d, Return it!' %(x, y)
                     return True
                 else:
@@ -75,7 +78,7 @@ class puzzle_generator(object):
             if (y - value) > -1 and (y - value) < 21:
                 print "Try moving left %d spaces" %value
                 print "Current position %d %d %s" %(x, y, moves)
-                if self.backtrack(x, y - value, moves + " left"):
+                if self.solve_generate_puzzle(x, y - value, moves + " left"):
                     print 'Found a solution at %d %d, Return it!' %(x, y)
                     return True
                 else:
@@ -83,15 +86,17 @@ class puzzle_generator(object):
             if (y + value) > -1 and (y + value) < 21:
                 print "Try moving right %d spaces" %value
                 print "Current position %d %d %s" %(x, y, moves)
-                if self.backtrack(x, y + value, moves + " right"):
+                if self.solve_generate_puzzle(x, y + value, moves + " right"):
                     print 'Found a solution at %d %d, Return it!' %(x, y)
                     return True
                 else:
                     self.table[x][y] = 0
+
         #Returns false if all else fails.
         return False
-"""
+
 #solution = treasure_hunt(file_name)
 #Prints the recursive solution
-#print solution.backtrack(0, 0)
+#print solution.solve_generate_puzzle(0, 0)
 cat = puzzle_generator()
+cat.solve_generate_puzzle(0,0, "")
