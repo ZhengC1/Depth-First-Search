@@ -5,22 +5,20 @@
 #Class: Arti. Intel.
 #Instructor: M. Parry
 
-#Import Statements
-#Import random so that i can populate my list from 1 to 4
-
 import random
-
 
 class puzzle_generator(object):
 
     #My init function, it's rather long
     def __init__(self):
-        #A lines list and a tables list to keep track of my moves.
+        self.__create_table()
+        self.___prompt_user():
+
+    #A lines list and a tables list to keep track of my moves.
+    def __create_table():
         self.lines = [[0 for x in range(21)] for x in range(21)]
         self.table = [[1 for x in range(21)] for x in range(21)]
 
-        #Asking the difficulty of the puzzle that they would like to solve
-        name_file = raw_input("puzzle difficulty: ")
         map_file = open("Medium.txt", "w+")
         for i in range(21):
             for j in range(21):
@@ -36,7 +34,6 @@ class puzzle_generator(object):
         treasure_map = open("Medium.txt", "r")
         self.lines = treasure_map.readlines()
         treasure_map.close()
-        print self.lines
 
     def solve_generate_puzzle(self, x, y, moves):
 

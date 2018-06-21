@@ -16,8 +16,8 @@ class puzzle_generator(object):
     for i in range(21):
       for j in range(21):
         map_file.write(str(0))
-  map_file.write("\n") 
-        map_file.close()
+      map_file.write("\n")
+    map_file.close()
 
         def generate_solution(self);
 

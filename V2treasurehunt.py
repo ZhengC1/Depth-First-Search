@@ -43,7 +43,7 @@ class treasure_hunt(object):
             print "Solution : %s" % moves
             print "Found a solution %d %d Return it!" % (x, y)
             self.solutions.append([moves])
-            return False 
+            return False
         #Else, does the recursive function calls
         else:
             #Sets the visited location in another table
