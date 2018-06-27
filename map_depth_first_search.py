@@ -1,6 +1,7 @@
 import random
 from map_creator import MapCreator
 
+
 class MapDepthFirstSearch(MapCreator):
 
     def __init__(self):
@@ -18,7 +19,7 @@ class MapDepthFirstSearch(MapCreator):
             print("no solution was found")
 
     def __solve_map(self, x, y, moves):
-        if x > len(self.map) -1 or x < 0 or y > len(self.map) -1 or y < 0:
+        if x > len(self.map) - 1 or x < 0 or y > len(self.map) - 1 or y < 0:
             return ""
         if self.visited[x][y]:
             return ""
@@ -28,9 +29,10 @@ class MapDepthFirstSearch(MapCreator):
 
         move_value = self.map[x][y]
 
-        return self.__solve_map(x , y - move_value,  moves + " left ") \
-                + self.__solve_map(x , y + move_value, moves + "right ") \
-                + self.__solve_map(x - move_value , y,  moves + "up ") \
-                + self.__solve_map(x + move_value , y,  moves + "down ")
+        return self.__solve_map(x, y - move_value,  moves + " left ") \
+            + self.__solve_map(x, y + move_value, moves + "right ") \
+            + self.__solve_map(x - move_value, y,  moves + "up ") \
+            + self.__solve_map(x + move_value, y,  moves + "down ")
+
 
 m = MapDepthFirstSearch()
