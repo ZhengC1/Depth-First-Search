@@ -22,7 +22,7 @@ class MapBreadthFirstSearch(MapCreator):
         while queue:
             current = queue.popleft()
             if current[1] == (len(self.map) - 1, len(self.map) - 1):
-                return current
+                return current[0] + " finish"
             for direction, adj in self.__get_adjacent(current):
                 if self.visited[adj[0]][adj[1]]:
                     continue
