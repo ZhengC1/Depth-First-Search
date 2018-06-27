@@ -13,27 +13,29 @@ class MapBreadthFirstSearch(MapCreator):
             print(' '.join([str(i) for i in row]))
 
         answer = self.__solve_map(start)
-        if answer:
-            print(answer)
-        else:
-            print("no solution was found")
+        print(answer)
 
     def __solve_map(self, start):
-      edge_to = {}
+      edge_to = []
+      edge_to.append(("start", start))
       queue = deque()
-      queue.append(start)
+      queue.append(("start", start))
       self.visited[start[0]][start[1]] = True;
       while queue:
           current = queue.popleft()
-          for adj in self.__get_adjacent(current):
+          if current[1] == (len(self.map) - 1, len(self.map) - 1):
+              return current
+          for direction, adj in self.__get_adjacent(current):
               if self.visited[adj[0]][adj[1]]:
                   continue
-              queue.append(adj)
+              queue.append((direction, adj))
               self.visited[adj[0]][adj[1]] = True
-              edge_to[adj] = current
-      return edge_to
+              edge_to.append((direction, adj))
+      return "no solution found"
 
-    def __get_adjacent(self, map_coordinates):
+    def __get_adjacent(self, current):
+       path = current[0]
+       map_coordinates = current[1]
        x = map_coordinates[0]
        y = map_coordinates[1]
        if x < 0 or y < 0 or x > len(self.map) or y > len(self.map):
@@ -42,14 +44,16 @@ class MapBreadthFirstSearch(MapCreator):
        adjacent = []
        # up
        if (x - value) >= 0:
-          adjacent.append((x - value, y))
+           adjacent.append((path + " up", (x - value, y)))
        # down
        if (x + value) < len(self.map):
-          adjacent.append((x + value, y))
+          adjacent.append((path + " down", (x + value, y)))
+       # left
        if (y - value) >= 0:
-          adjacent.append((x, y - value))
+          adjacent.append((path + " left", (x, y - value)))
+       # right
        if (y + value) < len(self.map):
-          adjacent.append((x, y + value))
+          adjacent.append((path + " right", (x, y + value)))
        return adjacent
 
 m = MapBreadthFirstSearch()
